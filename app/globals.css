@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body {
+  background-color: #0a0e14;
+  color: #e6e9ef;
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+.bg-grid {
+  background-image:
+    linear-gradient(rgba(61, 218, 215, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(61, 218, 215, 0.06) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+.prose-guide p {
+  margin-bottom: 1rem;
+  line-height: 1.75;
+  color: #c7cedb;
+}
+
+.prose-guide p.heading {
+  font-weight: 700;
+  color: #f2c14e;
+  font-size: 1.1rem;
+  margin-top: 1.75rem;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.02em;
+}
