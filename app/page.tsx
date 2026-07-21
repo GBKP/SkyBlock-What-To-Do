@@ -22,6 +22,15 @@ export default function HomePage() {
           />
         ))}
       </div>
+
+      <div className="mt-14 text-center space-y-1">
+        <p className="text-sm text-muted">
+          Guide assembled by NeverMoreHelpful, LightStrike07, and 637Glory
+        </p>
+        <p className="text-xs text-muted/60">
+          Website made by 637Glory
+        </p>
+      </div>
     </div>
   );
 }
