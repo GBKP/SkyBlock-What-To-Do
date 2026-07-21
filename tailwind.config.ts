@@ -8,14 +8,14 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        base: "#0a0e14",
-        panel: "#12171f",
-        panel2: "#1a212c",
-        border: "#232b38",
-        gold: "#f2c14e",
-        teal: "#3ddad7",
-        magenta: "#e05fa0",
-        muted: "#8a95a5",
+        base: "#09090f",
+        panel: "#0e0e1a",
+        panel2: "#141420",
+        border: "#1e1e35",
+        gold: "#9333ea",
+        teal: "#38bdf8",
+        magenta: "#d946ef",
+        muted: "#6b6b8f",
       },
     },
   },

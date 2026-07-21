@@ -5,29 +5,51 @@
 @tailwind utilities;
 
 html, body {
-  background-color: #0a0e14;
-  color: #e6e9ef;
+  background-color: #09090f;
+  color: #f0f0f8;
   font-family: 'Inter', system-ui, sans-serif;
 }
 
 .bg-grid {
   background-image:
-    linear-gradient(rgba(61, 218, 215, 0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(61, 218, 215, 0.06) 1px, transparent 1px);
+    linear-gradient(rgba(147, 51, 234, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(56, 189, 248, 0.04) 1px, transparent 1px);
   background-size: 32px 32px;
 }
 
 .prose-guide p {
   margin-bottom: 1rem;
   line-height: 1.75;
-  color: #c7cedb;
+  color: #c4c4d8;
 }
 
 .prose-guide p.heading {
   font-weight: 700;
-  color: #f2c14e;
+  color: #9333ea;
   font-size: 1.1rem;
   margin-top: 1.75rem;
   margin-bottom: 0.5rem;
   letter-spacing: 0.02em;
+}
+
+.sbm-gradient {
+  background: linear-gradient(135deg, #9333ea 0%, #38bdf8 60%, #d946ef 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.page-in {
+  animation: page-in 0.18s ease-out both;
 }
