@@ -25,7 +25,12 @@ export default function HomePage() {
 
       <div className="mt-14 text-center space-y-1">
         <p className="text-sm text-muted">
-          Guide made by NeverMoreHelpful, edited by LightStriker07 and 637Glory
+          Guide made by NeverMoreHelpful{" "}
+          <span className="text-xs text-muted/60">(nevermorehopeful_)</span>
+          , edited by LightStriker07{" "}
+          <span className="text-xs text-muted/60">(lightstriker_07)</span>
+          {" "}and 637Glory{" "}
+          <span className="text-xs text-muted/60">(7glxry_20694)</span>
         </p>
         <p className="text-xs text-muted/60">
           Website made by 637Glory
