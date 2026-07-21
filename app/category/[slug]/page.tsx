@@ -1,196 +1,329 @@
-import { notFound } from "next/navigation";
 import Link from "next/link";
-import GuideCard from "@/components/GuideCard";
+import { notFound } from "next/navigation";
 import {
+  HOME_PATHS,
   PROGRESSION_SKILLS,
-  MONEY_METHODS,
   COMBAT_SUB,
+  MONEY_METHODS,
   SLAYER_LIST,
   DUNGEON_LIST,
+  GUIDES,
   getGuidesByCategory,
-  getGuide,
 } from "@/lib/content";
+import { LinkCard } from "@/components/GuideCard";
 
-const DIRECT_GUIDE_SLUGS = ["lazy-money", "flipping", "rift-money"];
-const CATEGORY_GROUPS = [
-  "mining",
-  "farming",
-  "fishing",
-  "minions",
-  "other-skills",
-  "foraging-hunting",
-];
+function Crumbs({ items }: { items: { href: string; label: string }[] }) {
+  return (
+    <div className="mb-6 text-sm text-muted flex flex-wrap gap-1">
+      {items.map((it, i) => (
+        <span key={it.href} className="flex items-center gap-1">
+          {i > 0 && <span>/</span>}
+          <Link href={it.href} className="hover:text-teal">
+            {it.label}
+          </Link>
+        </span>
+      ))}
+    </div>
+  );
+}
 
-export default async function CategoryPage({ params }: { params: Promise<{ slug: string }> }) {
+export function generateStaticParams() {
+  return [
+    { slug: "progression" },
+    { slug: "money" },
+    { slug: "ideas" },
+    { slug: "mining" },
+    { slug: "farming" },
+    { slug: "fishing" },
+    { slug: "combat" },
+    { slug: "minions" },
+    { slug: "other-skills" },
+    { slug: "foraging-hunting" },
+    { slug: "slayers" },
+    { slug: "dungeons" },
+    { slug: "kuudra" },
+  ];
+}
+
+export default async function CategoryPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
   const { slug } = await params;
 
   if (slug === "progression") {
     return (
-      <PageShell title="General Progression" back="/">
-        <div className="grid sm:grid-cols-2 gap-4">
-          {PROGRESSION_SKILLS.map((c) => (
-            <GuideCard
-              key={c.slug}
-              href={`/category/${c.slug}`}
-              title={c.title}
-              description={c.description}
+      <div>
+        <Crumbs
+          items={[
+            { href: "/", label: "Home" },
+            { href: "/category/progression", label: "General Progression" },
+          ]}
+        />
+        <h1 className="text-2xl font-bold mb-6 text-gray-100">
+          What skill do you want to progress?
+        </h1>
+        <div className="grid gap-4 sm:grid-cols-2">
+          {PROGRESSION_SKILLS.map((s) => (
+            <LinkCard
+              key={s.slug}
+              href={`/category/${s.slug}`}
+              title={s.title}
+              description={s.description}
             />
           ))}
         </div>
-      </PageShell>
+      </div>
     );
   }
 
   if (slug === "money") {
     return (
-      <PageShell title="Money Making Methods" back="/">
-        <div className="grid sm:grid-cols-2 gap-4">
-          {MONEY_METHODS.map((c) => (
-            <GuideCard
-              key={c.slug}
-              href={
-                DIRECT_GUIDE_SLUGS.includes(c.slug)
-                  ? `/guide/${c.slug}`
-                  : `/category/${c.slug}`
-              }
-              title={c.title}
-              description={c.description}
-            />
-          ))}
+      <div>
+        <Crumbs
+          items={[
+            { href: "/", label: "Home" },
+            { href: "/category/money", label: "Money Making Methods" },
+          ]}
+        />
+        <h1 className="text-2xl font-bold mb-6 text-gray-100">
+          What money making method interests you?
+        </h1>
+        <div className="grid gap-4 sm:grid-cols-2">
+          {MONEY_METHODS.map((s) =>
+            s.slug === "combat" ||
+            s.slug === "mining" ||
+            s.slug === "farming" ||
+            s.slug === "fishing" ||
+            s.slug === "foraging-hunting" ? (
+              <LinkCard
+                key={s.slug}
+                href={`/category/${s.slug}`}
+                title={s.title}
+                description={s.description}
+              />
+            ) : (
+              <LinkCard
+                key={s.slug}
+                href={`/guide/${s.slug}`}
+                title={s.title}
+                description={s.description}
+              />
+            )
+          )}
         </div>
-      </PageShell>
+      </div>
     );
   }
 
   if (slug === "ideas") {
-    const dailies = getGuide("dailies");
+    const dailies = GUIDES.find((g) => g.slug === "dailies");
     return (
-      <PageShell title="Give Me Some Ideas" back="/">
+      <div>
+        <Crumbs
+          items={[
+            { href: "/", label: "Home" },
+            { href: "/category/ideas", label: "Give Me Some Ideas" },
+          ]}
+        />
+        <h1 className="text-2xl font-bold mb-4 text-gray-100">
+          Not sure what to do today?
+        </h1>
         {dailies && (
-          <div className="prose-guide bg-panel border border-border rounded-lg p-6 mb-8">
-            <h2 className="text-white font-semibold mb-3">{dailies.title}</h2>
-            {dailies.body.map((p, i) => (
-              <p key={i}>{p}</p>
-            ))}
+          <div className="mb-8 rounded-xl border border-border bg-panel p-5">
+            <h2 className="font-bold text-gold mb-2">{dailies.title}</h2>
+            <div className="prose-guide">
+              {dailies.body.map((p, i) => (
+                <p key={i}>{p}</p>
+              ))}
+            </div>
           </div>
         )}
-        <div className="grid sm:grid-cols-2 gap-4">
-          {PROGRESSION_SKILLS.map((c) => (
-            <GuideCard
-              key={c.slug}
-              href={`/category/${c.slug}`}
-              title={c.title}
-              description={c.description}
+        <h2 className="text-lg font-bold mb-4 text-gray-100">
+          Or browse everything:
+        </h2>
+        <div className="grid gap-4 sm:grid-cols-2">
+          {[
+            ...PROGRESSION_SKILLS,
+            {
+              slug: "rift-money-cat",
+              title: "The Rift",
+              description: "20-50m/hr, minimal setup.",
+            },
+          ].map((s) => (
+            <LinkCard
+              key={s.slug}
+              href={
+                s.slug === "rift-money-cat"
+                  ? "/guide/rift-money"
+                  : `/category/${s.slug}`
+              }
+              title={s.title}
+              description={s.description}
             />
           ))}
         </div>
-      </PageShell>
+      </div>
     );
   }
 
   if (slug === "combat") {
-    const earlyGuide = getGuide("combat-early");
-    const generalGuide = getGuide("combat-general");
     return (
-      <PageShell title="Combat" back="/category/progression">
-        <div className="grid sm:grid-cols-2 gap-4 mb-4">
-          {earlyGuide && (
-            <GuideCard href="/guide/combat-early" title={earlyGuide.title} description={earlyGuide.summary} />
-          )}
-          {generalGuide && (
-            <GuideCard href="/guide/combat-general" title={generalGuide.title} description={generalGuide.summary} />
-          )}
+      <div>
+        <Crumbs
+          items={[
+            { href: "/", label: "Home" },
+            { href: "/category/combat", label: "Combat" },
+          ]}
+        />
+        <h1 className="text-2xl font-bold mb-6 text-gray-100">
+          Where do you want to go next?
+        </h1>
+        <div className="grid gap-4 sm:grid-cols-2 mb-8">
+          <LinkCard
+            href="/guide/combat-early"
+            title="Beginning the Game"
+            description="Mercenary Armor to the Void Sword."
+          />
+          <LinkCard
+            href="/guide/combat-general"
+            title="General Combat"
+            description="Armor sets, weapons, Mythological Ritual."
+          />
         </div>
-        <div className="grid sm:grid-cols-2 gap-4">
-          {COMBAT_SUB.map((c) => (
-            <GuideCard key={c.slug} href={`/category/${c.slug}`} title={c.title} description={c.description} />
+        <div className="grid gap-4 sm:grid-cols-3">
+          {COMBAT_SUB.map((s) => (
+            <LinkCard
+              key={s.slug}
+              href={`/category/${s.slug}`}
+              title={s.title}
+              description={s.description}
+            />
           ))}
         </div>
-      </PageShell>
+      </div>
     );
   }
 
   if (slug === "slayers") {
-    const overview = getGuide("slayer-overview");
     return (
-      <PageShell title="Slayers" back="/category/combat">
-        {overview && (
-          <div className="prose-guide bg-panel border border-border rounded-lg p-6 mb-8">
-            {overview.body.map((p, i) => (
-              <p key={i}>{p}</p>
-            ))}
-          </div>
-        )}
-        <div className="grid sm:grid-cols-2 gap-4">
-          {SLAYER_LIST.map((c) => (
-            <GuideCard key={c.slug} href={`/guide/${c.slug}`} title={c.title} description={c.description} />
+      <div>
+        <Crumbs
+          items={[
+            { href: "/", label: "Home" },
+            { href: "/category/combat", label: "Combat" },
+            { href: "/category/slayers", label: "Slayers" },
+          ]}
+        />
+        <h1 className="text-2xl font-bold mb-6 text-gray-100">
+          All 6 Slayers
+        </h1>
+        <div className="mb-6">
+          <LinkCard
+            href="/guide/slayer-overview"
+            title="Slayer Overview"
+            description="The basics before you pick a boss."
+          />
+        </div>
+        <div className="grid gap-4 sm:grid-cols-2">
+          {SLAYER_LIST.map((s) => (
+            <LinkCard
+              key={s.slug}
+              href={`/guide/${s.slug}`}
+              title={s.title}
+              description={s.description}
+            />
           ))}
         </div>
-      </PageShell>
+      </div>
     );
   }
 
   if (slug === "dungeons") {
     return (
-      <PageShell title="Dungeons (Catacombs)" back="/category/combat">
-        <div className="grid sm:grid-cols-2 gap-4">
-          {DUNGEON_LIST.map((c) => (
-            <GuideCard key={c.slug} href={`/guide/${c.slug}`} title={c.title} description={c.description} />
+      <div>
+        <Crumbs
+          items={[
+            { href: "/", label: "Home" },
+            { href: "/category/combat", label: "Combat" },
+            { href: "/category/dungeons", label: "Dungeons" },
+          ]}
+        />
+        <h1 className="text-2xl font-bold mb-6 text-gray-100">
+          What piece of the Catacombs are you interested in?
+        </h1>
+        <div className="grid gap-4 sm:grid-cols-2">
+          {DUNGEON_LIST.map((s) => (
+            <LinkCard
+              key={s.slug}
+              href={`/guide/${s.slug}`}
+              title={s.title}
+              description={s.description}
+            />
           ))}
         </div>
-      </PageShell>
+      </div>
     );
   }
 
   if (slug === "kuudra") {
-    const g = getGuide("kuudra");
-    if (!g) return notFound();
     return (
-      <PageShell title="Kuudra" back="/category/combat">
-        <GuideCard href="/guide/kuudra" title={g.title} description={g.summary} />
-      </PageShell>
+      <div>
+        <Crumbs
+          items={[
+            { href: "/", label: "Home" },
+            { href: "/category/combat", label: "Combat" },
+            { href: "/category/kuudra", label: "Kuudra" },
+          ]}
+        />
+        <h1 className="text-2xl font-bold mb-6 text-gray-100">Kuudra</h1>
+        <div className="grid gap-4 sm:grid-cols-2">
+          <LinkCard
+            href="/guide/kuudra"
+            title="Kuudra Guide"
+            description="5 tiers, brief gear breakdown per role."
+          />
+        </div>
+      </div>
     );
   }
 
-  if (CATEGORY_GROUPS.includes(slug)) {
+  const simpleCategories: Record<string, string> = {
+    mining: "Mining",
+    farming: "Farming",
+    fishing: "Fishing",
+    minions: "Minions",
+    "other-skills": '"Other" Skills',
+    "foraging-hunting": "Foraging / Hunting",
+  };
+
+  if (simpleCategories[slug]) {
     const guides = getGuidesByCategory(slug);
-    if (guides.length === 0) return notFound();
-    const title = slug
-      .split("-")
-      .map((w) => w[0].toUpperCase() + w.slice(1))
-      .join(" ");
     return (
-      <PageShell title={title} back="/category/progression">
-        <div className="grid sm:grid-cols-2 gap-4">
+      <div>
+        <Crumbs
+          items={[
+            { href: "/", label: "Home" },
+            { href: `/category/${slug}`, label: simpleCategories[slug] },
+          ]}
+        />
+        <h1 className="text-2xl font-bold mb-6 text-gray-100">
+          {simpleCategories[slug]}
+        </h1>
+        <div className="grid gap-4 sm:grid-cols-2">
           {guides.map((g) => (
-            <GuideCard key={g.slug} href={`/guide/${g.slug}`} title={g.title} description={g.summary} />
+            <LinkCard
+              key={g.slug}
+              href={`/guide/${g.slug}`}
+              title={g.title}
+              description={g.summary}
+            />
           ))}
         </div>
-      </PageShell>
+      </div>
     );
   }
 
-  return notFound();
-}
-
-function PageShell({
-  title,
-  back,
-  children,
-}: {
-  title: string;
-  back: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <div>
-      <Link href={back} className="text-sm text-teal hover:underline">
-        ← Back
-      </Link>
-      <h1 className="text-2xl sm:text-3xl font-bold text-white mt-4 mb-8">
-        {title}
-      </h1>
-      {children}
-    </div>
-  );
+  notFound();
 }
