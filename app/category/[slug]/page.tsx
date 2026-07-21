@@ -14,7 +14,7 @@ import { LinkCard } from "@/components/GuideCard";
 
 function Crumbs({ items }: { items: { href: string; label: string }[] }) {
   return (
-    <div className="mb-6 text-sm text-muted flex flex-wrap gap-1">
+    <div className="mb-4 text-sm text-muted flex flex-wrap gap-1">
       {items.map((it, i) => (
         <span key={it.href} className="flex items-center gap-1">
           {i > 0 && <span>/</span>}
@@ -24,6 +24,14 @@ function Crumbs({ items }: { items: { href: string; label: string }[] }) {
         </span>
       ))}
     </div>
+  );
+}
+
+function BackLink({ href, label }: { href: string; label: string }) {
+  return (
+    <Link href={href} className="inline-block mb-6 text-sm text-teal hover:underline">
+      ← Back to {label}
+    </Link>
   );
 }
 
@@ -55,12 +63,8 @@ export default async function CategoryPage({
   if (slug === "progression") {
     return (
       <div>
-        <Crumbs
-          items={[
-            { href: "/", label: "Home" },
-            { href: "/category/progression", label: "General Progression" },
-          ]}
-        />
+        <Crumbs items={[{ href: "/", label: "Home" }, { href: "/category/progression", label: "General Progression" }]} />
+        <BackLink href="/" label="Home" />
         <h1 className="text-2xl font-bold mb-6 text-gray-100">
           What skill do you want to progress?
         </h1>
@@ -81,12 +85,8 @@ export default async function CategoryPage({
   if (slug === "money") {
     return (
       <div>
-        <Crumbs
-          items={[
-            { href: "/", label: "Home" },
-            { href: "/category/money", label: "Money Making Methods" },
-          ]}
-        />
+        <Crumbs items={[{ href: "/", label: "Home" }, { href: "/category/money", label: "Money Making Methods" }]} />
+        <BackLink href="/" label="Home" />
         <h1 className="text-2xl font-bold mb-6 text-gray-100">
           What money making method interests you?
         </h1>
@@ -121,12 +121,8 @@ export default async function CategoryPage({
     const dailies = GUIDES.find((g) => g.slug === "dailies");
     return (
       <div>
-        <Crumbs
-          items={[
-            { href: "/", label: "Home" },
-            { href: "/category/ideas", label: "Give Me Some Ideas" },
-          ]}
-        />
+        <Crumbs items={[{ href: "/", label: "Home" }, { href: "/category/ideas", label: "Give Me Some Ideas" }]} />
+        <BackLink href="/" label="Home" />
         <h1 className="text-2xl font-bold mb-4 text-gray-100">
           Not sure what to do today?
         </h1>
@@ -171,12 +167,8 @@ export default async function CategoryPage({
   if (slug === "combat") {
     return (
       <div>
-        <Crumbs
-          items={[
-            { href: "/", label: "Home" },
-            { href: "/category/combat", label: "Combat" },
-          ]}
-        />
+        <Crumbs items={[{ href: "/", label: "Home" }, { href: "/category/combat", label: "Combat" }]} />
+        <BackLink href="/category/progression" label="General Progression" />
         <h1 className="text-2xl font-bold mb-6 text-gray-100">
           Where do you want to go next?
         </h1>
@@ -209,13 +201,8 @@ export default async function CategoryPage({
   if (slug === "slayers") {
     return (
       <div>
-        <Crumbs
-          items={[
-            { href: "/", label: "Home" },
-            { href: "/category/combat", label: "Combat" },
-            { href: "/category/slayers", label: "Slayers" },
-          ]}
-        />
+        <Crumbs items={[{ href: "/", label: "Home" }, { href: "/category/combat", label: "Combat" }, { href: "/category/slayers", label: "Slayers" }]} />
+        <BackLink href="/category/combat" label="Combat" />
         <h1 className="text-2xl font-bold mb-6 text-gray-100">
           All 6 Slayers
         </h1>
@@ -243,13 +230,8 @@ export default async function CategoryPage({
   if (slug === "dungeons") {
     return (
       <div>
-        <Crumbs
-          items={[
-            { href: "/", label: "Home" },
-            { href: "/category/combat", label: "Combat" },
-            { href: "/category/dungeons", label: "Dungeons" },
-          ]}
-        />
+        <Crumbs items={[{ href: "/", label: "Home" }, { href: "/category/combat", label: "Combat" }, { href: "/category/dungeons", label: "Dungeons" }]} />
+        <BackLink href="/category/combat" label="Combat" />
         <h1 className="text-2xl font-bold mb-6 text-gray-100">
           What piece of the Catacombs are you interested in?
         </h1>
@@ -270,13 +252,8 @@ export default async function CategoryPage({
   if (slug === "kuudra") {
     return (
       <div>
-        <Crumbs
-          items={[
-            { href: "/", label: "Home" },
-            { href: "/category/combat", label: "Combat" },
-            { href: "/category/kuudra", label: "Kuudra" },
-          ]}
-        />
+        <Crumbs items={[{ href: "/", label: "Home" }, { href: "/category/combat", label: "Combat" }, { href: "/category/kuudra", label: "Kuudra" }]} />
+        <BackLink href="/category/combat" label="Combat" />
         <h1 className="text-2xl font-bold mb-6 text-gray-100">Kuudra</h1>
         <div className="grid gap-4 sm:grid-cols-2">
           <LinkCard
@@ -302,12 +279,8 @@ export default async function CategoryPage({
     const guides = getGuidesByCategory(slug);
     return (
       <div>
-        <Crumbs
-          items={[
-            { href: "/", label: "Home" },
-            { href: `/category/${slug}`, label: simpleCategories[slug] },
-          ]}
-        />
+        <Crumbs items={[{ href: "/", label: "Home" }, { href: `/category/${slug}`, label: simpleCategories[slug] }]} />
+        <BackLink href="/category/progression" label="General Progression" />
         <h1 className="text-2xl font-bold mb-6 text-gray-100">
           {simpleCategories[slug]}
         </h1>
