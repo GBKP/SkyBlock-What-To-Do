@@ -33,7 +33,7 @@ export default function RootLayout({
               />
               <div>
                 <span className="sbm-gradient block font-extrabold text-base leading-tight tracking-tight">
-                  SkyBlock Mentors
+                  SkyBlock Maniacs
                 </span>
                 <span className="block text-xs text-muted leading-tight">
                   What do I do next?
