@@ -4,6 +4,7 @@ import Image from "next/image";
 import "./globals.css";
 import SearchBar from "@/components/SearchBar";
 import PageTransition from "@/components/PageTransition";
+import Sidebar from "@/components/Sidebar";
 
 export const metadata: Metadata = {
   title: "What Do I Do Next? — Skyblock Guide",
@@ -46,11 +47,14 @@ export default function RootLayout({
           </div>
         </header>
 
-        <main className="bg-grid min-h-[calc(100vh-88px)]">
-          <div className="max-w-5xl mx-auto px-4 py-10">
-            <PageTransition>{children}</PageTransition>
-          </div>
-        </main>
+        <div className="flex min-h-[calc(100vh-67px)]">
+          <Sidebar />
+          <main className="flex-1 bg-grid">
+            <div className="max-w-3xl mx-auto px-6 py-10">
+              <PageTransition>{children}</PageTransition>
+            </div>
+          </main>
+        </div>
 
         <footer className="border-t border-border py-8 text-center text-xs text-muted">
           <p>
